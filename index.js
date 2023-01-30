@@ -6,13 +6,13 @@ class ProductManager {
     this.products = []
     this.path = path
   }
-  #checkDB(){
+  checkDB(){
     if(fs.existsSync(this.path)){
       this.products = JSON.parse(fs.readFileSync(this.path))
     }
   }
   addProduct(title, description, price, thumbnail, code, stock){
-    this.#checkDB()
+    this.checkDB()
     const isInArray = this.products.some(product => product.code === code)
     if(isInArray === false && title && description && price && thumbnail && stock){
       this.products.push({
@@ -34,7 +34,7 @@ class ProductManager {
     return this.products
   }
   getProductById(id){
-    this.#checkDB()
+    this.checkDB()
     const productFound = this.products.find(product => product.id === id)
     if (productFound){
       return productFound
@@ -43,7 +43,7 @@ class ProductManager {
     }
   }
   updateProduct(id, title, description, price, thumbnail, code, stock){
-    this.#checkDB()
+    this.checkDB()
     const indexFound = this.products.findIndex(product => product.id === id)
     if(indexFound !== -1){
       this.products[indexFound] = {
@@ -62,7 +62,7 @@ class ProductManager {
     }
   }
   deleteProduct(id){
-    this.#checkDB()
+    this.checkDB()
     const indexFound = this.products.findIndex(product => product.id === id)
     if(indexFound !== -1){
       this.products.splice(indexFound,indexFound+1)
@@ -84,7 +84,7 @@ console.log(productManager.getProducts())
 //Quitar comentario a la siguiente linea y colocar un id
 //console.log(productManager.getProductById("6e30eaf8-2936-414b-9627-d9687342353d"))
 //Quitar comentario a las dos lineas que siguen para ver que actualice el producto y verlo
-//console.log(productManager.updateProduct("cbfe5e84-813e-42be-a954-86c7cbe3c5bc", "producto 1 actualizado","descripción actualizada", 100, "Sin imagen","asd123",12))
+console.log(productManager.updateProduct("2f090b05-d3fd-4c60-a1d5-611191390c02", "producto 1 actualizado","descripción actualizada", 100, "Sin imagen","001",12))
 //console.log(productManager.getProducts())
 //Quitar comentario a la siguiente linea para ver como se elimina el producto
-//console.log(productManager.deleteProduct("cbfe5e84-813e-42be-a954-86c7cbe3c5bc"))
+console.log(productManager.deleteProduct("cbfe5e84-813e-42be-a954-86c7cbe3c5bc"))
